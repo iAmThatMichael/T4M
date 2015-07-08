@@ -85,17 +85,6 @@ void SDLLP::Log(const char* message, ...)
 // --------------------------------------+
 
 #define LIBRARY "d3d9.dll"
-EXPORT(Direct3DShaderValidatorCreate9)
-EXPORT(PSGPError)
-EXPORT(PSGPSampleTexture)
 EXPORT(D3DPERF_BeginEvent)
 EXPORT(D3DPERF_EndEvent)
-EXPORT(D3DPERF_GetStatus)
-EXPORT(D3DPERF_QueryRepeatFrame)
-EXPORT(D3DPERF_SetMarker)
-EXPORT(D3DPERF_SetOptions)
-EXPORT(D3DPERF_SetRegion)
-EXPORT(DebugSetLevel)
-EXPORT(DebugSetMute)
 EXPORT(Direct3DCreate9)
-EXPORT(Direct3DCreate9Ex)

@@ -74,7 +74,8 @@ bool __stdcall DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
 	if (dwReason == DLL_PROCESS_ATTACH)
 	{
-		if (*(DWORD*)0x4EBB2ED == 0x56525153) // SP!
+		// t4 sp exe
+		if (*(DWORD*)0x401000 == 0x83ec8b55)
 		{
 			Main_SetSafeInit();
 		}
