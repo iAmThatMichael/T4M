@@ -12,4 +12,6 @@
 #include "Hooking.h"
 
 #include "T4.h"
+#include "Utils.h"
 
+#define __thread __declspec(thread)
