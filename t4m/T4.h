@@ -1,6 +1,3 @@
-#pragma once
-#include "StdInc.h"
-
 typedef enum assetType_e
 {
 	ASSET_TYPE_PHYSPRESET = 0,
