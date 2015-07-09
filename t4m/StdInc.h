@@ -9,6 +9,11 @@
 #include <vector>
 #include <map>
 
+#include <zlib.h>
+#pragma comment(lib, "zlib.lib")
+
+#include "resource.h"
+
 #include "Hooking.h"
 
 #include "T4.h"

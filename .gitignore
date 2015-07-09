@@ -54,6 +54,7 @@ Temporary Items
 *.opensdf
 *.pdb
 *.suo
+*.aps
 *.vcxproj.user
 
 # Additional stuff

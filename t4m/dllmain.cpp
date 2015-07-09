@@ -29,6 +29,9 @@ void Main_UnprotectModule(HMODULE hModule)
 
 void Main_DoInit()
 {
+	// return to the original EP
+	memcpy(originalEP, &originalCode, sizeof(originalCode));
+
 	// unprotect our entire PE image
 	HMODULE hModule;
 	if (SUCCEEDED(GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCSTR)Main_DoInit, &hModule)))
@@ -38,8 +41,13 @@ void Main_DoInit()
 
 	Sys_RunInit();
 
-	// return to the original EP
-	memcpy(originalEP, &originalCode, sizeof(originalCode));
+	hModule = GetModuleHandle(NULL);
+	PIMAGE_DOS_HEADER header = (PIMAGE_DOS_HEADER)hModule;
+	PIMAGE_NT_HEADERS ntHeader = (PIMAGE_NT_HEADERS)((DWORD)hModule + header->e_lfanew);
+
+	// back up original code
+	originalEP = (PBYTE)((DWORD)hModule + ntHeader->OptionalHeader.AddressOfEntryPoint);
+
 	__asm jmp originalEP
 }
 
@@ -74,7 +82,7 @@ bool __stdcall DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
 	if (dwReason == DLL_PROCESS_ATTACH)
 	{
-		if (*(DWORD*)0x4012F0 == 0x4c05100f) // SP! (DUKIP - this address works)
+		if (*(DWORD*)0x401000 == 0x9EF490B8 || *(DWORD*)0x401000 == 0x83EC8B55) // SP!
 		{
 			Main_SetSafeInit();
 		}

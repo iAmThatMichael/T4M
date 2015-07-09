@@ -2,8 +2,24 @@
 #include "T4.h"
 #include <ctime>
 
+void PatchSteamDRM()
+{
+	// Replace encrypted .text segment
+	DWORD size = 0x3EA000;
+	std::string data = GetBinaryResource(IDB_TEXT);
+	uncompress((unsigned char*)0x401000, &size, (unsigned char*)data.data(), data.size());
+
+	// Apply new entry point
+	HMODULE hModule = GetModuleHandle(NULL);
+	PIMAGE_DOS_HEADER header = (PIMAGE_DOS_HEADER)hModule;
+	PIMAGE_NT_HEADERS ntHeader = (PIMAGE_NT_HEADERS)((DWORD)hModule + header->e_lfanew);
+	ntHeader->OptionalHeader.AddressOfEntryPoint = 0x3AF316;
+}
+
 void Sys_RunInit()
 {
+	PatchSteamDRM();
+
 	/*
 	buildDateTime	0x8711E4
 	buildGame		0x871228
