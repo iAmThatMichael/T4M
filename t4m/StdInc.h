@@ -15,3 +15,4 @@
 #include "Utils.h"
 
 #define __thread __declspec(thread)
+#define HardDebugBreak() MessageBoxA(0, __FUNCTION__, 0, 0);

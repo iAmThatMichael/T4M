@@ -74,7 +74,7 @@ bool __stdcall DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
 	if (dwReason == DLL_PROCESS_ATTACH)
 	{
-		if (*(DWORD*)0x4EBB2ED == 0x56525153) // SP!
+		if (*(DWORD*)0x4012F0 == 0x4c05100f) // SP! (DUKIP - this address works)
 		{
 			Main_SetSafeInit();
 		}

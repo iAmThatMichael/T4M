@@ -63,7 +63,13 @@
     <PostBuildEvent>
       <Command>if "%COMPUTERNAME%" == "MAURICE-PC" (
     copy /y "$(TargetPath)" "D:\Games\SteamLibrary\steamapps\common\Call of Duty World at War\"
-)</Command>
+)
+
+if "%COMPUTERNAME%" == "MICHAEL" (
+    copy /y "$(TargetPath)" "E:\Program Files (x86)\Steam\SteamApps\common\Call of Duty World at War\"
+)
+
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
