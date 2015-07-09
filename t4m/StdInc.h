@@ -9,9 +9,15 @@
 #include <vector>
 #include <map>
 
+#include <zlib.h>
+#pragma comment(lib, "zlib.lib")
+
+#include "resource.h"
+
 #include "Hooking.h"
 
 #include "T4.h"
 #include "Utils.h"
 
 #define __thread __declspec(thread)
+#define HardDebugBreak() MessageBoxA(0, __FUNCTION__, 0, 0);
