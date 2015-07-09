@@ -1,3 +1,4 @@
+#pragma once
 typedef enum assetType_e
 {
 	ASSET_TYPE_PHYSPRESET = 0,
@@ -32,3 +33,5 @@ typedef enum assetType_e
 	ASSET_TYPE_STRINGTABLE = 29,
 	ASSET_TYPE_PACKINDEX = 30
 } assetType_t;
+
+void* ReallocateAssetPool(assetType_t type, unsigned int newSize);

@@ -1,7 +1,7 @@
 #include "StdInc.h"
 
 typedef int(__cdecl * DB_GetXAssetSizeHandler_t)();
-DB_GetXAssetSizeHandler_t* DB_GetXAssetSizeHandlers = (DB_GetXAssetSizeHandler_t*)0x799488;
+DB_GetXAssetSizeHandler_t* DB_GetXAssetSizeHandlers = (DB_GetXAssetSizeHandler_t*)0x8DCC18;
 
 void** DB_XAssetPool = (void**)0x8DCA68; //g_assetNames
 unsigned int* g_poolSize = (unsigned int*)0x8DC5D0; //g_poolSize
