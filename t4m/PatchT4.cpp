@@ -54,6 +54,9 @@ void PatchT4()
 	PatchMemory(0x871200, (PBYTE)"UNKNOWN", 8);			// user
 	PatchMemory(0x8D8D5C, (PBYTE)"7331", 5);			// number2 (probably ID of user?)
 
+	nop(0x5FE685, 5); // remove optimal settings popup
+	*(BYTE*)0x5FF386 = (BYTE)0xEB; // skip safe mode check
+
 	// NOTES: 
 	// some assets will work and some will crash, example everything in here will crash but fx.
 	// ReallocateAssetPool fails in Release
