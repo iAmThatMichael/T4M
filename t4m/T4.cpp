@@ -1,5 +1,7 @@
 #include "StdInc.h"
 
+Cbuf_AddText_t Cbuf_AddText = (Cbuf_AddText_t)0x594200;
+
 Com_Printf_t Com_Printf = (Com_Printf_t)0x59A2C0;
 Com_PrintMessage_t Com_PrintMessage = (Com_PrintMessage_t)0x59A170;
 

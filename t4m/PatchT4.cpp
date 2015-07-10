@@ -57,21 +57,16 @@ void PatchT4()
 	nop(0x5FE685, 5); // remove optimal settings popup
 	*(BYTE*)0x5FF386 = (BYTE)0xEB; // skip safe mode check
 
-	// NOTES: 
-	// some assets will work and some will crash, example everything in here will crash but fx.
-	// ReallocateAssetPool fails in Release
-	// Allocating a pool, i.e. FX, triples RAM usage (from 300MB to 900MB), which might be the reason it crashes in release.
-	//
-	// increase pool sizes.
+	// increase pool sizes to similar (or greater) t5 sizes.
 	ReallocateAssetPool(ASSET_TYPE_FX, 600);
 	ReallocateAssetPool(ASSET_TYPE_IMAGE, 4096);
-	ReallocateAssetPool(ASSET_TYPE_LOADED_SOUND, 3200);
+	ReallocateAssetPool(ASSET_TYPE_LOADED_SOUND, 2400);
 	ReallocateAssetPool(ASSET_TYPE_MATERIAL, 4096);
-	//ReallocateAssetPool(ASSET_TYPE_WEAPON, 320); 
-	// unused pool allocations
-	//ReallocateAssetPool(ASSET_TYPE_LOCALIZE, 9216);
-	//ReallocateAssetPool(ASSET_TYPE_RAWFILE, 1024); //not modified
 	ReallocateAssetPool(ASSET_TYPE_STRINGTABLE, 80);
-	ReallocateAssetPool(ASSET_TYPE_XANIM, 5100);
-	ReallocateAssetPool(ASSET_TYPE_XMODEL, 2000);
+	ReallocateAssetPool(ASSET_TYPE_WEAPON, 320);
+	// unused pool allocations
+	//ReallocateAssetPool(ASSET_TYPE_LOCALIZE, 9216); // do not set, messed up pool.
+	//ReallocateAssetPool(ASSET_TYPE_RAWFILE, 1024); // not modified
+	//ReallocateAssetPool(ASSET_TYPE_XANIM, 5100);
+	//ReallocateAssetPool(ASSET_TYPE_XMODEL, 2000);
 }

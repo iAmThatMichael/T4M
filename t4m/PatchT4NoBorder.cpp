@@ -1,3 +1,17 @@
+// ==========================================================
+// IW4M project
+// 
+// Component: clientdll
+// Sub-component: steam_api
+// Purpose: Modern Warfare 2 patches: r_noborder for render
+//          window without borders (and proper height for
+//          text scaling)
+//
+// Initial author: NTAuthority
+// Adapated to T4 on: 2015-07-10
+// Started: 2011-05-21
+// ==========================================================
+
 #include "StdInc.h"
 #include "T4.h"
 
@@ -22,7 +36,7 @@ void __declspec(naked) WindowedWindowStyleHookStub()
 
 void PatchT4_NoBorder()
 {
-	r_noborder = Dvar_RegisterBool(0, "r_noborder", DVAR_FLAG_SAVED, "Do not use a border in windowed mode");
+	r_noborder = Dvar_RegisterBool(0, "r_noborder", DVAR_FLAG_SAVED, "Remove the border when running in windowed mode (set vid_xpos and vid_ypos to 0).");
 
 	windowedWindowStyleHook.initialize(windowedWindowStyleHookLoc, WindowedWindowStyleHookStub, 5, false);
 	windowedWindowStyleHook.installHook();
