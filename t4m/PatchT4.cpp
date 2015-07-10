@@ -16,11 +16,20 @@ void PatchSteamDRM()
 	ntHeader->OptionalHeader.AddressOfEntryPoint = 0x3AF316;
 }
 
+void PatchT4();
+void PatchT4_NoBorder();
+
 void Sys_RunInit()
 {
 	PatchSteamDRM();
+	PatchT4();
+	//PatchT4_NoBorder();
+}
 
+void PatchT4()
+{
 	/*
+	Useful addresses
 	buildDateTime	0x8711E4
 	buildGame		0x871228
 	buildUser		0x871200
@@ -31,7 +40,7 @@ void Sys_RunInit()
 	version check	0x5FD91B
 	gameName		0x871228
 	*/
-	
+
 	//PatchMemory(0xaddressoftjestring, yourstring, strlen(yourstring)+1);
 	//DWORD version = 1337;
 	//PatchMemory(0x59D35D, (PBYTE)&version, 4);
@@ -45,15 +54,21 @@ void Sys_RunInit()
 	PatchMemory(0x871200, (PBYTE)"UNKNOWN", 8);			// user
 	PatchMemory(0x8D8D5C, (PBYTE)"7331", 5);			// number2 (probably ID of user?)
 
-	// NOTE: some assets will work and some will crash, example everything
-	// in here will crash but fx.
+	// NOTES: 
+	// some assets will work and some will crash, example everything in here will crash but fx.
+	// ReallocateAssetPool fails in Release
+	// Allocating a pool, i.e. FX, triples RAM usage (from 300MB to 900MB), which might be the reason it crashes in release.
 	//
-	// doubling asset pool sizes
-	ReallocateAssetPool(ASSET_TYPE_FX, 800);
-	//ReallocateAssetPool(ASSET_TYPE_IMAGE, 4800);
+	// increase pool sizes.
+	//ReallocateAssetPool(ASSET_TYPE_FX, 600);
+	//ReallocateAssetPool(ASSET_TYPE_IMAGE, 4096);
 	//ReallocateAssetPool(ASSET_TYPE_LOADED_SOUND, 3200);
 	//ReallocateAssetPool(ASSET_TYPE_MATERIAL, 4096);
-	//ReallocateAssetPool(ASSET_TYPE_WEAPON, 512); 
+	//ReallocateAssetPool(ASSET_TYPE_WEAPON, 320); 
+	// unused pool allocations
+	//ReallocateAssetPool(ASSET_TYPE_LOCALIZE, 9216);
+	//ReallocateAssetPool(ASSET_TYPE_RAWFILE, 1024); //not modified
+	//ReallocateAssetPool(ASSET_TYPE_STRINGTABLE, 80);
+	//ReallocateAssetPool(ASSET_TYPE_XANIM, 5100);
 	//ReallocateAssetPool(ASSET_TYPE_XMODEL, 2000);
 }
-
