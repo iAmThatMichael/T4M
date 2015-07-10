@@ -115,8 +115,7 @@ extern Com_Printf_t Com_Printf;
 typedef void(__cdecl * Com_PrintMessage_t)(int channel, const char *fmt, int error, ...);
 extern Com_PrintMessage_t Com_PrintMessage;
 
-typedef dvar_t* (__cdecl * Dvar_RegisterBool_t)(int value, const char *dvarName, int flags, const char *description);
-extern Dvar_RegisterBool_t Dvar_RegisterBool;
+extern dvar_t* Dvar_RegisterBool(bool value, const char *dvarName, int flags, const char *description);
 
 /*
 	Source Functions
