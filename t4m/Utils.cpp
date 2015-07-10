@@ -69,7 +69,7 @@ const wchar_t* va(const wchar_t* string, ...)
 std::string GetBinaryResource(int name)
 {
 	HMODULE handle;
-	GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCWSTR)GetBinaryResource, &handle);
+	GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCSTR)GetBinaryResource, &handle);
 
 	HRSRC rc = FindResource(handle, MAKEINTRESOURCE(name), MAKEINTRESOURCE(TEXTFILE));
 	HGLOBAL rcData = LoadResource(handle, rc);
