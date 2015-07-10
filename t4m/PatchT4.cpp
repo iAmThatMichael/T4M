@@ -50,10 +50,10 @@ void Sys_RunInit()
 	//
 	// doubling asset pool sizes
 	ReallocateAssetPool(ASSET_TYPE_FX, 800);
-	//ReallocateAssetPool(ASSET_TYPE_IMAGE, 4800);
-	//ReallocateAssetPool(ASSET_TYPE_LOADED_SOUND, 3200);
-	//ReallocateAssetPool(ASSET_TYPE_MATERIAL, 4096);
-	//ReallocateAssetPool(ASSET_TYPE_WEAPON, 512); 
-	//ReallocateAssetPool(ASSET_TYPE_XMODEL, 2000);
+	ReallocateAssetPool(ASSET_TYPE_IMAGE, 4800);
+	ReallocateAssetPool(ASSET_TYPE_LOADED_SOUND, 3200);
+	ReallocateAssetPool(ASSET_TYPE_MATERIAL, 4096);
+	ReallocateAssetPool(ASSET_TYPE_WEAPON, 512); 
+	ReallocateAssetPool(ASSET_TYPE_XMODEL, 2000);
 }
 
