@@ -34,7 +34,7 @@ void Main_DoInit()
 
 	// unprotect our entire PE image
 	HMODULE hModule;
-	if (SUCCEEDED(GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCSTR)Main_DoInit, &hModule)))
+	if (SUCCEEDED(GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCWSTR)Main_DoInit, &hModule)))
 	{
 		Main_UnprotectModule(hModule);
 	}

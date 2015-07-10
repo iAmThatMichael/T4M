@@ -80,6 +80,7 @@ if "%COMPUTERNAME%" == "MICHAEL" (
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;T4M_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\deps\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>StdInc.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -114,6 +115,7 @@ if "%COMPUTERNAME%" == "MICHAEL" (
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Hooking.cpp" />
+    <ClCompile Include="PatchT4NoBorder.cpp" />
     <ClCompile Include="SDLLP.cpp" />
     <ClCompile Include="StdInc.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

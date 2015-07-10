@@ -1,7 +1,7 @@
 #include "StdInc.h"
 
 /*
-va() by NTAuthority from http://tohjo.eu/citidev/citizenmp
+va() variant by NTAuthority from http://tohjo.eu/citidev/citizenmp
 */
 #define BUFFER_COUNT 8
 #define BUFFER_LENGTH 32768
@@ -25,7 +25,7 @@ const char* va(const char* string, ...)
 
 	if (length >= BUFFER_LENGTH)
 	{
-		//Com_Printf(0, "ERROR: Attempted to overrun string in call to va()!");
+		Com_Printf(0, "ERROR: Attempted to overrun string in call to va()!");
 		exit(1);
 	}
 
@@ -55,7 +55,7 @@ const wchar_t* va(const wchar_t* string, ...)
 
 	if (length >= BUFFER_LENGTH)
 	{
-		//Com_Printf(0, "ERROR: Attempted to overrun string in call to va()!");
+		Com_Printf(0, "ERROR: Attempted to overrun string in call to va()!");
 		exit(1);
 	}
 
@@ -69,7 +69,7 @@ const wchar_t* va(const wchar_t* string, ...)
 std::string GetBinaryResource(int name)
 {
 	HMODULE handle;
-	GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCSTR)GetBinaryResource, &handle);
+	GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCWSTR)GetBinaryResource, &handle);
 
 	HRSRC rc = FindResource(handle, MAKEINTRESOURCE(name), MAKEINTRESOURCE(TEXTFILE));
 	HGLOBAL rcData = LoadResource(handle, rc);
@@ -81,6 +81,7 @@ std::string GetBinaryResource(int name)
 	return data;
 }
 
+//code from Nukem/SE2Dev https://github.com/Nukem9/LinkerMod/blob/master/shared/utility.h 
 void PatchMemory(ULONG_PTR Address, PBYTE Data, SIZE_T Size)
 {
 	DWORD d = 0;
