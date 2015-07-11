@@ -1,3 +1,13 @@
+// ==========================================================
+// T4M project
+// 
+// Component: clientdll
+// Purpose: Utility functions
+//
+// Initial author: UNKNOWN
+// Started: 2015-07-08
+// ==========================================================
+
 #include "StdInc.h"
 
 /*

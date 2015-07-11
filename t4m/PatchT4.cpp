@@ -1,6 +1,14 @@
+// ==========================================================
+// T4M project
+// 
+// Component: clientdll
+// Purpose: World at War patches
+//
+// Initial author: UNKNOWN
+// Started: 2015-07-08
+// ==========================================================
+
 #include "StdInc.h"
-#include "T4.h"
-#include <ctime>
 
 void PatchSteamDRM()
 {
@@ -17,12 +25,14 @@ void PatchSteamDRM()
 }
 
 void PatchT4();
+void PatchT4_Dvars();
 void PatchT4_NoBorder();
 
 void Sys_RunInit()
 {
 	PatchSteamDRM();
 	PatchT4();
+	PatchT4_Dvars();
 	PatchT4_NoBorder();
 }
 

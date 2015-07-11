@@ -1,19 +1,17 @@
 // ==========================================================
-// IW4M project
+// T4M project
 // 
 // Component: clientdll
-// Sub-component: steam_api
-// Purpose: Modern Warfare 2 patches: r_noborder for render
+// Purpose: World at War patches: r_noborder for render
 //          window without borders (and proper height for
 //          text scaling)
 //
 // Initial author: NTAuthority
-// Adapated to T4 on: 2015-07-10
+// Adapated: 2015-07-10
 // Started: 2011-05-21
 // ==========================================================
 
 #include "StdInc.h"
-#include "T4.h"
 
 StompHook windowedWindowStyleHook;
 DWORD windowedWindowStyleHookLoc = 0x6D6543;

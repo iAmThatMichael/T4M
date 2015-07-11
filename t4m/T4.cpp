@@ -1,3 +1,13 @@
+// ==========================================================
+// T4M project
+// 
+// Component: clientdll
+// Purpose: World at War related functions
+//
+// Initial author: UNKNOWN
+// Started: 2015-07-08
+// ==========================================================
+
 #include "StdInc.h"
 
 Cbuf_AddText_t Cbuf_AddText = (Cbuf_AddText_t)0x594200;

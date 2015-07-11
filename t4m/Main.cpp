@@ -3,9 +3,10 @@
 // 
 // Component: clientdll
 // Sub-component: steam_api
-// Purpose: Manages the initialization of iw4cli.
+// Purpose: Manages the initialization of t4cli.
 //
 // Initial author: NTAuthority
+// Adapated: 2015-07-08
 // Started: 2011-05-04
 // ==========================================================
 

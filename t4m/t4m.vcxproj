@@ -106,7 +106,7 @@ if "%COMPUTERNAME%" == "MICHAEL" (
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
+    <ClCompile Include="Main.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
@@ -115,12 +115,9 @@ if "%COMPUTERNAME%" == "MICHAEL" (
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Hooking.cpp" />
+    <ClCompile Include="PatchT4Dvars.cpp" />
     <ClCompile Include="PatchT4NoBorder.cpp" />
     <ClCompile Include="SDLLP.cpp" />
-    <ClCompile Include="StdInc.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="PatchT4.cpp" />
     <ClCompile Include="T4.cpp" />
     <ClCompile Include="Utils.cpp" />
