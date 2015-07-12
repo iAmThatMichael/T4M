@@ -115,6 +115,9 @@ extern "C"
 	extern Com_PrintMessage_t Com_PrintMessage;
 
 	extern dvar_t* Dvar_RegisterBool(bool value, const char *dvarName, int flags, const char *description);
+
+	typedef void(__cdecl * Com_PrintMessage_t)(int channel, const char *fmt, int error, ...);
+	extern Com_PrintMessage_t Com_PrintMessage;
 }
 
 /*

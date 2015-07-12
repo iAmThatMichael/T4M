@@ -17,7 +17,10 @@ float cgFov90 = 90.0f;
 
 void PatchT4_Dvars()
 {
-	*(BYTE*)0x65EE46 ^= DVAR_FLAG_CHEAT | DVAR_FLAG_SAVED; // un-protected cg_fov and add saved flag
-
-	//*(DWORD*)0x65EE60 = (DWORD)&cgFov90; // find right address
+	//DVAR: cg_fov
+	//MODS: Clear cheat flag, set saved flag, set maximum to 90
+	*(BYTE*)0x65EE46 ^= DVAR_FLAG_CHEAT | DVAR_FLAG_SAVED;
+	*(DWORD*)0x65EE31 = (DWORD)&cgFov90;
+	
+	//
 }
