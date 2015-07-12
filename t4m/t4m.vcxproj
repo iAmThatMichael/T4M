@@ -115,6 +115,7 @@ if "%COMPUTERNAME%" == "MICHAEL" (
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Hooking.cpp" />
+    <ClCompile Include="PatchT4Console.cpp" />
     <ClCompile Include="PatchT4Dvars.cpp" />
     <ClCompile Include="PatchT4NoBorder.cpp" />
     <ClCompile Include="SDLLP.cpp" />

@@ -13,6 +13,7 @@
 void PatchSteamDRM();
 void PatchT4();
 void PatchT4_AssetPool();
+void PatchT4_Console();
 void PatchT4_Dvars();
 void PatchT4_NoBorder();
 void PatchT4_PreLoad();
@@ -42,6 +43,7 @@ void PatchT4()
 	//PatchSteamDRM(); //NOTE: Do not enable this; at it's current state it breaks some stuff related to mod loading.
 	//Side-note: Switching to "LanFixed" exe in order to continue development until said func is fixed.
 	PatchT4_AssetPool();
+	PatchT4_Console();
 	PatchT4_Dvars();
 	PatchT4_NoBorder();
 	PatchT4_PreLoad();

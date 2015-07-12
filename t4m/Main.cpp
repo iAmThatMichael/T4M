@@ -88,6 +88,5 @@ bool __stdcall DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 			Main_SetSafeInit();
 		}
 	}
-
 	return true;
 }
