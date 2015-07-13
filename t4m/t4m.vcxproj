@@ -54,7 +54,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;T4M_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>StdInc.h</PrecompiledHeaderFile>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(SolutionDir)..\deps\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -115,6 +115,7 @@ if "%COMPUTERNAME%" == "MICHAEL" (
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Hooking.cpp" />
+    <ClCompile Include="PatchT4Branding.cpp" />
     <ClCompile Include="PatchT4Console.cpp" />
     <ClCompile Include="PatchT4Dvars.cpp" />
     <ClCompile Include="PatchT4NoBorder.cpp" />

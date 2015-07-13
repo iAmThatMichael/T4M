@@ -4,3 +4,7 @@ void FixupFunction(ULONG_PTR Address, ULONG_PTR DestAddress);
 const char* va(const char* string, ...);
 const wchar_t* va(const wchar_t* string, ...);
 std::string GetBinaryResource(int name);
+
+#pragma comment(lib, "Resource/Detours.lib")
+#include "Resource/Typedef.h"
+#include "Resource/Detours.h"
