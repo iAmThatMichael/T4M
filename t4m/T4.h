@@ -108,13 +108,14 @@ extern "C"
 	typedef void(__cdecl * Cbuf_AddText_t)(int a1, const char* cmd);
 	extern Cbuf_AddText_t Cbuf_AddText;
 
-	typedef void(__cdecl * Com_Printf_t)(int channel, const char *fmt, ...);
-	extern Com_Printf_t Com_Printf;
+	//typedef void(__cdecl * Com_Printf_t)(int channel, const char *fmt, ...);
+	//extern Com_Printf_t Com_Printf;
 
-	typedef void(__cdecl * Com_PrintMessage_t)(int channel, const char *fmt, int error, ...);
+	typedef void(__cdecl * Com_PrintMessage_t)(int channel, const char *fmt, int error);
 	extern Com_PrintMessage_t Com_PrintMessage;
 
 	extern dvar_t* Dvar_RegisterBool(bool value, const char *dvarName, int flags, const char *description);
+	extern void Com_Printf(int channel, const char* format, ...);
 
 	extern void Sys_ShowConsole();
 }
