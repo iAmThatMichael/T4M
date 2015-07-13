@@ -111,6 +111,7 @@ extern "C"
 	//typedef void(__cdecl * Com_Printf_t)(int channel, const char *fmt, ...);
 	//extern Com_Printf_t Com_Printf;
 
+
 	typedef void(__cdecl * Com_PrintMessage_t)(int channel, const char *fmt, int error);
 	extern Com_PrintMessage_t Com_PrintMessage;
 

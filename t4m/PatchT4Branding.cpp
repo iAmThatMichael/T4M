@@ -23,6 +23,8 @@ void PatchT4_Branding()
 	//PatchMemory(0x59D430, (PBYTE)SHORTVERSION_STR, 3);
 	Detours::X86::DetourFunction((PBYTE)0x4743D2, (PBYTE)&SetConsoleVersion, Detours::X86Option::USE_CALL); // change the version info of console window
 	Detours::X86::DetourFunction((PBYTE)0x59D393, (PBYTE)&SetConsoleVersion, Detours::X86Option::USE_CALL); // change the version info of version dvar
+
+	nop(0x59D68B, 5); // dont play intro video
 }
 
 const char* SetConsoleVersion()
