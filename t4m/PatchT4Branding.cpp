@@ -20,7 +20,7 @@ void PatchT4_Branding()
 	//TODO: Replace shortversion DVars and other version related locations
 	nop(0x5FD91B, 5);										// disable pc_newversionavailable check
 	PatchMemory(0x851208, (PBYTE)CONSOLEVERSION_STR, 14);	// change the console input version
-	//PatchMemory(0x59D430, (PBYTE)SHORTVERSION_STR, 4);
+	//PatchMemory(0x59D430, (PBYTE)SHORTVERSION_STR, 3);
 	Detours::X86::DetourFunction((PBYTE)0x4743D2, (PBYTE)&SetConsoleVersion, Detours::X86Option::USE_CALL); // change the version info of console window
 	Detours::X86::DetourFunction((PBYTE)0x59D393, (PBYTE)&SetConsoleVersion, Detours::X86Option::USE_CALL); // change the version info of version dvar
 }
