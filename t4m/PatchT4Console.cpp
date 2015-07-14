@@ -14,6 +14,8 @@ void FilterConsoleSpam();
 
 void PatchT4_Console()
 {
+	*(BYTE*)0x4781FE = 0xEB; // Enable ingame console
+
 	Sys_ShowConsole();
 	FilterConsoleSpam();
 }
