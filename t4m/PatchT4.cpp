@@ -10,6 +10,7 @@
 
 #include "StdInc.h"
 
+void loadGameOverlay();
 void PatchT4();
 void PatchT4_AssetPool();
 void PatchT4_Branding();
@@ -28,11 +29,15 @@ void PatchT4()
 {
 	PatchT4_SteamDRM();
 	PatchT4_AssetPool();
+	PatchT4_Branding();
 	PatchT4_Console();
 	PatchT4_Dvars();
 	PatchT4_NoBorder();
 	PatchT4_PreLoad();
-	PatchT4_Branding();
+
+	// Check if game got started using steam
+	if (!GetModuleHandle("gameoverlayrenderer.dll"))
+		loadGameOverlay();
 }
 
 void PatchT4_AssetPool()
@@ -44,11 +49,6 @@ void PatchT4_AssetPool()
 	ReallocateAssetPool(ASSET_TYPE_MATERIAL, 4096);
 	ReallocateAssetPool(ASSET_TYPE_STRINGTABLE, 80);
 	ReallocateAssetPool(ASSET_TYPE_WEAPON, 320);
-	// unused pool allocations
-	//ReallocateAssetPool(ASSET_TYPE_LOCALIZE, 9216); // do not set, messed up pool.
-	//ReallocateAssetPool(ASSET_TYPE_RAWFILE, 1024); // not modified
-	//ReallocateAssetPool(ASSET_TYPE_XANIM, 5100);
-	//ReallocateAssetPool(ASSET_TYPE_XMODEL, 2000);
 }
 
 void PatchT4_PreLoad()
@@ -69,4 +69,41 @@ void PatchT4_SteamDRM()
 	PIMAGE_DOS_HEADER header = (PIMAGE_DOS_HEADER)hModule;
 	PIMAGE_NT_HEADERS ntHeader = (PIMAGE_NT_HEADERS)((DWORD)hModule + header->e_lfanew);
 	ntHeader->OptionalHeader.AddressOfEntryPoint = 0x3AF316;
+}
+
+//code from https://github.com/momo5502/cod-mod/
+void loadGameOverlay()
+{
+	try
+	{
+		std::string m_steamDir;
+		HKEY hRegKey;
+
+		if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\Valve\\Steam", 0, KEY_QUERY_VALUE, &hRegKey) == ERROR_SUCCESS)
+		{
+			char pchSteamDir[MAX_PATH];
+			DWORD dwLength = sizeof(pchSteamDir);
+			RegQueryValueExA(hRegKey, "InstallPath", NULL, NULL, (BYTE*)pchSteamDir, &dwLength);
+			RegCloseKey(hRegKey);
+
+			m_steamDir = pchSteamDir;
+		}
+
+		//Com_Printf(0, "Loading %s\\gameoverlayrenderer.dll...\n", m_steamDir.c_str());
+		HMODULE overlay = LoadLibrary(va("%s\\gameoverlayrenderer.dll", m_steamDir.c_str()));
+
+		if (overlay)
+		{
+			FARPROC _SetNotificationPosition = GetProcAddress(overlay, "SetNotificationPosition");
+
+			if (_SetNotificationPosition)
+			{
+				((void(*)(uint32_t))_SetNotificationPosition)(1);
+			}
+		}
+	}
+	catch (int e)
+	{
+		//Com_Printf(0, "Failed to inject Steam's gameoverlay: %d", e);
+	}
 }

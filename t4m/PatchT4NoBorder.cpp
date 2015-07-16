@@ -34,7 +34,7 @@ void __declspec(naked) WindowedWindowStyleHookStub()
 
 void PatchT4_NoBorder()
 {
-	r_noborder = Dvar_RegisterBool(0, "r_noborder", DVAR_FLAG_SAVED, "Remove the border when running in windowed mode (set vid_xpos and vid_ypos to 0).");
+	r_noborder = Dvar_RegisterBool(0, "r_noborder", DVAR_FLAG_ARCHIVE, "Remove the border when running in windowed mode (set vid_xpos and vid_ypos to 0).");
 
 	Detours::X86::DetourFunction((PBYTE)0x6D6543, (PBYTE)&WindowedWindowStyleHookStub, Detours::X86Option::USE_CALL);
 }

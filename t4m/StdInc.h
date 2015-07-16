@@ -22,8 +22,11 @@
 #define __thread __declspec(thread)
 #define HardDebugBreak() MessageBoxA(0, __FUNCTION__, 0, 0);
 
-//hardcoded, get a working gitrev.cmd or something
-#include "buildnumber.h" // gives us COMMIT, COMMIT_STR, and BUILDHOST
+#include "buildnumber.h"
+#define DATE __DATE__
+#define TIME __TIME__
 #define CONSOLEVERSION_STR "T4M r"COMMIT_STR"> "
-#define VERSION_STR "T4-SP (r"COMMIT_STR") (built " __DATE__ " " __TIME__ " by " BUILDHOST")"
+#define VERSION_STR "T4-SP (r"COMMIT_STR") (built " DATE " " TIME " by " BUILDHOST")"
+#define BUILDLOG_STR "Build " VERSION_STR "\nlogfile created!\n"
 #define SHORTVERSION_STR "2.0."COMMIT_STR
+#define LONGVERSION_STR SHORTVERSION_STR " CL " DATE " " TIME
