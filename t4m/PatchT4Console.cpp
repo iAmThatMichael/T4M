@@ -20,7 +20,6 @@ void PatchT4_Console()
 	FilterConsoleSpam();
 }
 
-
 void Sys_ShowConsole()
 {
 	DWORD func = 0x6057F0;
@@ -29,7 +28,6 @@ void Sys_ShowConsole()
 		call func
 	}
 }
-
 
 void FilterConsoleSpam()
 {
