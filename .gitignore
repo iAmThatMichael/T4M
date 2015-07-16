@@ -66,6 +66,9 @@ t4m/Release/
 t4m/Debug/
 t4m/ipch/
 
+t4m/buildnumber.h
+t4m/lastrev.txt
+
 # IDA
 # =========================
 *.id0

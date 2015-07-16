@@ -70,8 +70,14 @@
 )
 if "%COMPUTERNAME%" == "MICHAEL" (
     copy /y "$(TargetPath)" "E:\Program Files (x86)\Steam\SteamApps\common\Call of Duty World at War\"
+)
+if "$(SolutionDir)" == "C:\dev\COD Archive\t4\T4M\t4m\" (
+    copy /y "$(TargetPath)" "D:\Games\Steam\SteamApps\common\Call of Duty World at War\"
 )</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>call "$(SolutionDir)../deps/gitrev.bat"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

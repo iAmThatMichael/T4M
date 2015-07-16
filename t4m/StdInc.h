@@ -23,8 +23,7 @@
 #define HardDebugBreak() MessageBoxA(0, __FUNCTION__, 0, 0);
 
 //hardcoded, get a working gitrev.cmd or something
-#define BUILDNUMBER 26
-#define BUILDNUMBER_STR "26"
-#define CONSOLEVERSION_STR "T4M r"BUILDNUMBER_STR"> "
-#define VERSION_STR "T4-SP (r"BUILDNUMBER_STR") (built " __DATE__ " " __TIME__ ")"
-#define SHORTVERSION_STR "2.0."BUILDNUMBER_STR
+#include "buildnumber.h" // gives us COMMIT, COMMIT_STR, and BUILDHOST
+#define CONSOLEVERSION_STR "T4M r"COMMIT_STR"> "
+#define VERSION_STR "T4-SP (r"COMMIT_STR") (built " __DATE__ " " __TIME__ " by " BUILDHOST")"
+#define SHORTVERSION_STR "2.0."COMMIT_STR
