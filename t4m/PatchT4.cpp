@@ -12,7 +12,7 @@
 
 void loadGameOverlay();
 void PatchT4();
-void PatchT4_AssetPool();
+void PatchT4_MemoryLimits();
 void PatchT4_Branding();
 void PatchT4_Console();
 void PatchT4_Dvars();
@@ -28,7 +28,7 @@ void Sys_RunInit()
 void PatchT4()
 {
 	PatchT4_SteamDRM();
-	PatchT4_AssetPool();
+	PatchT4_MemoryLimits();
 	PatchT4_Branding();
 	PatchT4_Console();
 	PatchT4_Dvars();
@@ -38,17 +38,6 @@ void PatchT4()
 	// Check if game got started using steam
 	if (!GetModuleHandle("gameoverlayrenderer.dll"))
 		loadGameOverlay();
-}
-
-void PatchT4_AssetPool()
-{
-	// increase pool sizes to similar (or greater) t5 sizes.
-	ReallocateAssetPool(ASSET_TYPE_FX, 600);
-	ReallocateAssetPool(ASSET_TYPE_IMAGE, 4096);
-	ReallocateAssetPool(ASSET_TYPE_LOADED_SOUND, 2400);
-	ReallocateAssetPool(ASSET_TYPE_MATERIAL, 4096);
-	ReallocateAssetPool(ASSET_TYPE_STRINGTABLE, 80);
-	ReallocateAssetPool(ASSET_TYPE_WEAPON, 320);
 }
 
 void PatchT4_PreLoad()
