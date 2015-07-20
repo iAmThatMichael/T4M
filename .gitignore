@@ -67,7 +67,7 @@ t4m/Debug/
 t4m/ipch/
 
 t4m/buildnumber.h
-t4m/lastrev.txt
+deps/lastrev.txt
 
 # IDA
 # =========================

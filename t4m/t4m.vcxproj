@@ -76,7 +76,9 @@ if "$(SolutionDir)" == "C:\dev\COD Archive\t4\T4M\t4m\" (
 )</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>call "$(SolutionDir)../deps/gitrev.bat"</Command>
+      <Command>pushd "$(SolutionDir)../deps/"
+call "$(SolutionDir)../deps/gitrev.bat"
+popd</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -106,6 +108,11 @@ if "%COMPUTERNAME%" == "MICHAEL" (
     copy /y "$(TargetPath)" "E:\Program Files (x86)\Steam\SteamApps\common\Call of Duty World at War\"
 )</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>pushd "$(SolutionDir)../deps/"
+call "$(SolutionDir)../deps/gitrev.bat"
+popd</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Hooking.h" />
@@ -127,6 +134,7 @@ if "%COMPUTERNAME%" == "MICHAEL" (
     <ClCompile Include="PatchT4Branding.cpp" />
     <ClCompile Include="PatchT4Console.cpp" />
     <ClCompile Include="PatchT4Dvars.cpp" />
+    <ClCompile Include="PatchT4FileDebug.cpp" />
     <ClCompile Include="PatchT4MemoryLimits.cpp" />
     <ClCompile Include="PatchT4NoBorder.cpp" />
     <ClCompile Include="SDLLP.cpp" />
