@@ -14,7 +14,7 @@ void FilterConsoleSpam();
 
 void PatchT4_Console()
 {
-	*(BYTE*)0x4781FE = 0xEB; // Enable ingame console
+	*(BYTE*)0x4781FE = 0xEB; // force enable ingame console
 
 	Sys_ShowConsole();
 	FilterConsoleSpam();
@@ -31,10 +31,11 @@ void Sys_ShowConsole()
 
 void FilterConsoleSpam()
 {
+	PatchMemory(0x84B670, (PBYTE)"", 2); // set "." to blank since it spams it in dwLogOnComplete
 	nop(0x5F9DF2, 5); // vv
 	nop(0x5F9E2F, 5); // disable DebugReportProfileDVars call (was being spammed when in lobbies and such)
 	nop(0x5A3C44, 5); // disable Com_Printf call for "ragdoll allocation failed" (causes frame drops up the ass)
 	nop(0x57B15B, 5); // disable Com_Printf call for "g_numFriends is now %i" (internal)
 	nop(0x57FE59, 5); // disable Com_Printf call for "nulling invite info for friend %s"
-	PatchMemory(0x86F8E4, (PBYTE)"", 36); // replace "updating profile info for friend %s" with blanks, noping the address causes a crash elsewhere.
+	nop(0x57FE15, 5); // disable Com_Printf call for "updating profile info for friend %s"
 }

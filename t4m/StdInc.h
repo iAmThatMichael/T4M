@@ -23,6 +23,8 @@
 #define HardDebugBreak() MessageBoxA(0, __FUNCTION__, 0, 0);
 
 #include "buildnumber.h"
+
+#define FS_BASEGAME "data"
 #define DATE __DATE__
 #define TIME __TIME__
 #define CONSOLEVERSION_STR "T4M r"COMMIT_STR"> "

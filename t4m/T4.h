@@ -105,12 +105,10 @@ typedef struct dvar_t
 */
 extern "C"
 {
-	typedef void(__cdecl * Cbuf_AddText_t)(int a1, const char* cmd);
-	extern Cbuf_AddText_t Cbuf_AddText;
+	extern void Cbuf_AddText(const char* text, int localClientNum);
 
 	//typedef void(__cdecl * Com_Printf_t)(int channel, const char *fmt, ...);
 	//extern Com_Printf_t Com_Printf;
-
 
 	typedef void(__cdecl * Com_PrintMessage_t)(int channel, const char *fmt, int error);
 	extern Com_PrintMessage_t Com_PrintMessage;

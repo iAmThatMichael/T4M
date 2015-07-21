@@ -10,10 +10,13 @@
 
 #include "StdInc.h"
 
-Cbuf_AddText_t Cbuf_AddText = (Cbuf_AddText_t)0x594200;
+extern "C"
+{
+	//Cbuf_AddText_t Cbuf_AddText = (Cbuf_AddText_t)0x594200;
 
-//Com_Printf_t Com_Printf = (Com_Printf_t)0x59A2C0;
-Com_PrintMessage_t Com_PrintMessage = (Com_PrintMessage_t)0x59A170;
+	//Com_Printf_t Com_Printf = (Com_Printf_t)0x59A2C0;
+	Com_PrintMessage_t Com_PrintMessage = (Com_PrintMessage_t)0x59A170;
+}
 
 // fucking __usercall
 dvar_t* Dvar_RegisterBool(bool value, const char *dvarName, int flags, const char *description)
@@ -31,6 +34,19 @@ dvar_t* Dvar_RegisterBool(bool value, const char *dvarName, int flags, const cha
 		mov ret, eax
 	}
 	return ret;
+}
+
+// fucking __usercall
+// somehow is still broken, works on and off
+void Cbuf_AddText(const char* text, int localClientNum)
+{
+	DWORD func = 0x594200;
+	__asm
+	{
+		mov eax, text
+		mov ecx, localClientNum
+		call func
+	}
 }
 
 void Com_Printf(int channel, const char* format, ...)

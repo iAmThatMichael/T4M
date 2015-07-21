@@ -84,7 +84,7 @@ void __declspec(naked) drawDetailedDvarMatchStub()
 	}
 }
 
-void Patch_ConsoleBox()
+void PatchT4_ConsoleBox()
 {
 	// call our functionality to draw another line
 	call(0x47294C, drawDetailedDvarMatchStub, PATCH_CALL);
@@ -103,5 +103,5 @@ void PatchT4_Dvars()
 	//MODS: Clear cheat flag, set arhive flag
 	*(WORD*)0x65EE7C ^= DVAR_FLAG_CHEAT | DVAR_FLAG_ARCHIVE;
 
-	Patch_ConsoleBox(); // do cusom drawing stuff for dvars in console
+	PatchT4_ConsoleBox(); // do custom drawing stuff for dvars in console
 }

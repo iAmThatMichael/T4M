@@ -76,9 +76,8 @@ if "$(SolutionDir)" == "C:\dev\COD Archive\t4\T4M\t4m\" (
 )</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>pushd "$(SolutionDir)../deps/"
-call "$(SolutionDir)../deps/gitrev.bat"
-popd</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -117,6 +116,7 @@ popd</Command>
   <ItemGroup>
     <ClInclude Include="Hooking.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Script.h" />
     <ClInclude Include="StdInc.h" />
     <ClInclude Include="T4.h" />
     <ClInclude Include="Utils.h" />
@@ -137,6 +137,7 @@ popd</Command>
     <ClCompile Include="PatchT4FileDebug.cpp" />
     <ClCompile Include="PatchT4MemoryLimits.cpp" />
     <ClCompile Include="PatchT4NoBorder.cpp" />
+    <ClCompile Include="PatchT4Script.cpp" />
     <ClCompile Include="SDLLP.cpp" />
     <ClCompile Include="PatchT4.cpp" />
     <ClCompile Include="T4.cpp" />

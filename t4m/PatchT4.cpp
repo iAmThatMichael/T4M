@@ -35,7 +35,7 @@ void PatchT4()
 	PatchT4_Dvars();
 	PatchT4_NoBorder();
 	PatchT4_PreLoad();
-	PatchT4_FileDebug();
+	//PatchT4_FileDebug();
 
 	// Check if game got started using steam
 	if (!GetModuleHandle("gameoverlayrenderer.dll"))
