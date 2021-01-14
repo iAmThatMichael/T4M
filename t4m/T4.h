@@ -1,43 +1,4 @@
 #pragma once
-typedef enum assetType_e
-{
-	ASSET_TYPE_XMODELPIECES = 0,
-	ASSET_TYPE_PHYSPRESET = 1,
-	ASSET_TYPE_PHYSCONSTRAINTS = 2,
-	ASSET_TYPE_DESTRUCTIBLEDEF = 3,
-	ASSET_TYPE_XANIM = 4,
-	ASSET_TYPE_XMODEL = 5,
-	ASSET_TYPE_MATERIAL = 6,
-	ASSET_TYPE_TECHSET = 7,
-	ASSET_TYPE_IMAGE = 8,
-	ASSET_TYPE_SOUND = 9,
-	ASSET_TYPE_LOADED_SOUND = 10,
-	ASSET_TYPE_COL_MAP_SP = 11,
-	ASSET_TYPE_COL_MAP_MP = 12,
-	ASSET_TYPE_COM_MAP = 13,
-	ASSET_TYPE_GAME_MAP_SP = 14,
-	ASSET_TYPE_GAME_MAP_MP = 15,
-	ASSET_TYPE_MAP_ENTS = 16,
-	ASSET_TYPE_GFX_MAP = 17,
-	ASSET_TYPE_LIGHTDEF = 18,
-	ASSET_TYPE_UI_MAP = 19,
-	ASSET_TYPE_FONT = 20,
-	ASSET_TYPE_MENUFILE = 21,
-	ASSET_TYPE_MENU = 22,
-	ASSET_TYPE_LOCALIZE = 23,
-	ASSET_TYPE_WEAPON = 24,
-	ASSET_TYPE_SNDDRIVERGLOBALS = 25,
-	ASSET_TYPE_FX = 26,
-	ASSET_TYPE_IMPACTFX = 27,
-	ASSET_TYPE_AITYPE = 28,
-	ASSET_TYPE_MPTYPE = 29,
-	ASSET_TYPE_CHARACTER = 30,
-	ASSET_TYPE_XMODELALIAS = 31,
-	ASSET_TYPE_RAWFILE = 32,
-	ASSET_TYPE_STRINGTABLE = 33,
-	ASSET_TYPE_PACKINDEX = 34
-} assetType_t;
-
 typedef enum
 {
 	DVAR_FLAG_ARCHIVE = 1 << 0,				// 0x0001
@@ -56,19 +17,23 @@ typedef enum
 	DVAR_FLAG_AUTOEXEC = 1 << 15,			// 0x8000
 } dvar_flag;
 
-typedef enum
+enum dvarType_t
 {
-	DVAR_TYPE_BOOL = 0,
-	DVAR_TYPE_FLOAT = 1,
-	DVAR_TYPE_FLOAT_2 = 2,
-	DVAR_TYPE_FLOAT_3 = 3,
-	DVAR_TYPE_FLOAT_4 = 4,
-	DVAR_TYPE_INT = 5,
-	DVAR_TYPE_ENUM = 6,
-	DVAR_TYPE_STRING = 7,
-	DVAR_TYPE_COLOR = 8,
-	DVAR_TYPE_INT64	= 9 // only in Tx
-} dvar_type;
+	DVAR_TYPE_BOOL = 0x0,
+	DVAR_TYPE_FLOAT = 0x1,
+	DVAR_TYPE_FLOAT_2 = 0x2,
+	DVAR_TYPE_FLOAT_3 = 0x3,
+	DVAR_TYPE_FLOAT_4 = 0x4,
+	DVAR_TYPE_INT = 0x5,
+	DVAR_TYPE_ENUM = 0x6,
+	DVAR_TYPE_STRING = 0x7,
+	DVAR_TYPE_COLOR = 0x8,
+	DVAR_TYPE_INT64 = 0x9,
+	DVAR_TYPE_LINEAR_COLOR_RGB = 0xA,
+	DVAR_TYPE_COLOR_XYZ = 0xB,
+	DVAR_TYPE_COUNT = 0xC,
+};
+
 
 union dvar_value_t {
 	char*	string;
@@ -81,10 +46,12 @@ union dvar_value_t {
 	BYTE	color[4]; //to get float: multiply by 0.003921568859368563 - BaberZz
 	__int64 integer64; // only in Tx
 };
+
 union dvar_maxmin_t {
 	int i;
 	float f;
 };
+
 typedef struct dvar_t
 {
 	//startbyte:endbyte
@@ -100,31 +67,274 @@ typedef struct dvar_t
 	dvar_maxmin_t max; //68:72 woooo
 } dvar_t;
 
-/*
-	Engine Functions
-*/
-extern "C"
+enum scriptInstance_t
 {
-	extern void Cbuf_AddText(const char* text, int localClientNum);
+	SCRIPTINSTANCE_SERVER = 0x0,
+	SCRIPTINSTANCE_CLIENT = 0x1,
+	SCRIPT_INSTANCE_MAX = 0x2,
+};
 
-	//typedef void(__cdecl * Com_Printf_t)(int channel, const char *fmt, ...);
-	//extern Com_Printf_t Com_Printf;
+typedef void(__cdecl * xcommand_t)(void);
 
-	typedef void(__cdecl * Com_PrintMessage_t)(int channel, const char *fmt, int error);
-	extern Com_PrintMessage_t Com_PrintMessage;
+#define cmd_functions_ADDR 0x01F416F4
 
-	extern dvar_t* Dvar_RegisterBool(bool value, const char *dvarName, int flags, const char *description);
-	extern void Com_Printf(int channel, const char* format, ...);
+typedef struct cmd_function_s
+{
+	struct cmd_function_s *next;
+	char *name;
+	char *autocomplete1;
+	char *autocomplete2;
+	xcommand_t function;
+};
 
-	extern void Sys_ShowConsole();
-}
+struct CmdArgs
+{
+	int nesting;
+	int localClientNum[8];
+	int controllerIndex[8];
+	//itemDef_s *itemDef[8];
+	int argshift[8];
+	int argc[8];
+	const char **argv[8];
+	char textPool[8192];
+	const char *argvPool[512];
+	int usedTextPool[8];
+	int totalUsedArgvPool;
+	int totalUsedTextPool;
+};
+
+struct XZoneInfo {
+	const char* name;
+	int allocFlags;
+	int freeFlags;
+};
 
 struct vec2_t { float x, y; };
 struct vec3_t { float x, y, z; };
 struct vec4_t { float x, y, z, w; };
 
+struct ConDrawInputGlob
+{
+	char autoCompleteChoice[64];
+	int matchIndex;
+	int matchCount;
+	const char *inputText;
+	int inputTextLen;
+	bool hasExactMatch;
+	bool mayAutoComplete;
+	float x;
+	float y;
+	float leftX;
+	float fontHeight;
+};
+
+struct scr_localVar_t
+{
+	unsigned int name;
+	unsigned int sourcePos;
+};
+
+struct scr_block_s
+{
+	int abortLevel;
+	int localVarsCreateCount;
+	int localVarsPublicCount;
+	int localVarsCount;
+	char localVarsInitBits[8];
+	scr_localVar_t localVars[64];
+};
+
+union sval_u
+{
+	char type;
+	unsigned int stringValue;
+	unsigned int idValue;
+	float floatValue;
+	int intValue;
+	sval_u *node;
+	unsigned int sourcePosValue;
+	const char *codePosValue;
+	const char *debugString;
+	scr_block_s *block;
+};
+
+enum bitsShit
+{
+	MEMORY_NODE_BITS = 0x10,
+	MEMORY_NODE_COUNT = 0x10000,
+	MT_SIZE = 0x100000,
+	REFSTRING_STRING_OFFSET = 0x4,
+};
+
+struct __declspec(align(4)) RefString
+{
+	union bitsShit;
+	char str[1];
+};
+
+struct __declspec(align(4)) VariableStackBuffer
+{
+	const char *pos;
+	unsigned __int16 size;
+	unsigned __int16 bufLen;
+	unsigned int localId;
+	char time;
+	char buf[1];
+};
+
+union VariableUnion
+{
+	int intValue;
+	float floatValue;
+	unsigned int stringValue;
+	const float *vectorValue;
+	const char *codePosValue;
+	unsigned int pointerValue;
+	VariableStackBuffer *stackValue;
+	unsigned int entityOffset;
+};
+
+
+struct XZoneName
+{
+	char name[64];
+	int flags;
+	int fileSize;
+	BYTE dir; //enum FF_DIR
+	bool loaded;
+	BYTE pad[2];
+};
+
+struct gentity_s
+{
+	char padding[876]; // because fuck everything else
+	int nextFree;
+};
+
+#include "xasset.h"
+
+// types
+typedef void(__cdecl * CommandCB_t)(void);
+
+/*
+	Engine Functions
+*/
+
+extern "C"
+{
+
+	typedef int(__cdecl * AddFunction_t)(scriptInstance_t inst, int func);
+	extern AddFunction_t AddFunction;
+
+	extern void Cbuf_AddText(const char* text, int localClientNum);
+
+	//typedef void(__cdecl * Cmd_AddCommand_t)(const char* name, CommandCB_t callback, cmd_function_s* data, char);
+	//extern Cmd_AddCommand_t Cmd_AddCommand;
+
+	typedef void(__cdecl * Com_Error_t)(int type, char* message, ...);
+	extern Com_Error_t Com_Error;
+
+	typedef void(*Com_Printf_t)(int channel, const char* format, ...);
+	extern Com_Printf_t Com_Printf;
+
+	typedef void(__cdecl * Com_PrintMessage_t)(int channel, const char *fmt, int error);
+	extern Com_PrintMessage_t Com_PrintMessage;
+
+	typedef const char *(__cdecl * DB_EnumXAssets_t)(XAssetType type, void(__cdecl *func)(XAssetHeader, void *), void *inData, bool includeOverride);
+	extern DB_EnumXAssets_t DB_EnumXAssets;
+
+	typedef void(__cdecl * DB_EnumXAssets_FastFile_t)(XAssetType type, void(__cdecl *func)(XAssetHeader, void *), void *inData);
+	extern DB_EnumXAssets_FastFile_t DB_EnumXAssets_FastFile;
+
+	typedef void* (__cdecl * DB_FindXAssetHeader_t)(int type, const char* filename);
+	extern DB_FindXAssetHeader_t DB_FindXAssetHeader;
+
+	typedef void(*DB_LoadXAssets_t)(XZoneInfo* data, int count, int sync);
+	extern DB_LoadXAssets_t DB_LoadXAssets;
+
+	extern dvar_t* Dvar_RegisterBool(bool value, const char *dvarName, int flags, const char *description);
+
+	typedef void(__cdecl * EmitMethod_t)(scriptInstance_t inst, sval_u expr, sval_u func_name, sval_u params, sval_u methodSourcePos, bool bStatement, scr_block_s *block);
+	extern EmitMethod_t EmitMethod;
+
+	typedef void* (*Scr_GetFunction_t)(const char **pName, int *type);
+	extern Scr_GetFunction_t Scr_GetFunction;
+
+	typedef void* (*CScr_GetFunction_t)(const char **pName, int *type);
+	extern CScr_GetFunction_t CScr_GetFunction;
+
+	typedef void* (*CScr_GetMethod_t)(const char **pName, int *type);
+	extern CScr_GetMethod_t CScr_GetMethod;
+
+	//typedef void* (*Scr_GetMethod_t)(const char **pName, int *type);
+	extern int Scr_GetMethod(int *type, const char **pName);
+
+	typedef int(__cdecl * Player_GetMethod_t)(const char **pName);
+	extern Player_GetMethod_t Player_GetMethod;
+
+	typedef int(__cdecl * ScriptEnt_GetMethod_t)(const char **pName);
+	extern ScriptEnt_GetMethod_t ScriptEnt_GetMethod;
+
+	typedef int(__cdecl * ScriptVehicle_GetMethod_t)(const char **pName);
+	extern ScriptVehicle_GetMethod_t ScriptVehicle_GetMethod;
+
+	typedef int(__cdecl * HudElem_GetMethod_t)(const char **pName);
+	extern HudElem_GetMethod_t HudElem_GetMethod;
+
+	typedef int(__cdecl * Helicopter_GetMethod_t)(const char **pName);
+	extern Helicopter_GetMethod_t Helicopter_GetMethod;
+
+	typedef int(__cdecl * Actor_GetMethod_t)(const char **pName);
+	extern Actor_GetMethod_t Actor_GetMethod;
+
+	typedef int(__cdecl * BuiltIn_GetMethod_t)(const char **pName, int *type);
+	extern BuiltIn_GetMethod_t BuiltIn_GetMethod;
+	
+	typedef void(*RemoveRefToValue_t)(scriptInstance_t inst, int type, VariableUnion u);
+	extern RemoveRefToValue_t RemoveRefToValue;
+}
+
+typedef int scr_entref_t;
+typedef void(__cdecl * scr_function_t)(scr_entref_t);
+
+// inline cmd functions
+extern DWORD* cmd_id;
+extern DWORD* cmd_argc;
+extern DWORD** cmd_argv;
+
+inline int Cmd_Argc(void)
+{
+	return cmd_argc[*cmd_id];
+}
+
+inline char *Cmd_Argv(int arg)
+{
+	if ((unsigned)arg >= cmd_argc[*cmd_id]) {
+		return "";
+	}
+	return (char*)(cmd_argv[*cmd_id][arg]);
+}
+
+int __cdecl Scr_GetNumParam(scriptInstance_t inst);
+
 
 /*
 	Source Functions
 */
-void* ReallocateAssetPool(assetType_t type, unsigned int newSize);
+void* DB_ReallocXAssetPool(XAssetType type, unsigned int newSize);
+char *__cdecl SL_ConvertToString(unsigned int stringValue, scriptInstance_t inst);
+void Cmd_AddCommand(const char *cmd_name, xcommand_t function);
+
+char *__cdecl DB_GetXAssetTypeName(int type);
+
+extern XAssetEntryPoolEntry* g_assetEntryPool;
+extern XZoneName* g_zoneNames;
+extern unsigned __int16 * db_hashTable;
+
+typedef const char *(__cdecl *DB_XAssetGetNameHandler)(XAssetHeader *);
+extern DB_XAssetGetNameHandler *DB_XAssetGetNameHandlers;
+void __cdecl DB_ListAssetPool(XAssetType type, bool count_only);
+const char *__cdecl DB_GetXAssetHeaderName(int type, XAssetHeader *header);
+const char *__cdecl DB_GetXAssetName(XAsset *asset);
+
+int __cdecl DB_GetXAssetTypeSize(int type);

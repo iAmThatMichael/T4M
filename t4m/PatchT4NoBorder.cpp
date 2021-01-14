@@ -20,7 +20,7 @@ dvar_t* r_noborder;
 
 void __declspec(naked) WindowedWindowStyleHookStub()
 {
-	if (r_noborder->current.boolean)
+	if (r_noborder->current.value)
 	{
 		__asm mov ebp, WS_VISIBLE | WS_POPUP
 	}

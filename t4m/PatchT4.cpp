@@ -16,10 +16,13 @@ void PatchT4_MemoryLimits();
 void PatchT4_Branding();
 void PatchT4_Console();
 void PatchT4_Dvars();
+void PatchT4_Menus();
 void PatchT4_NoBorder();
 void PatchT4_PreLoad();
+void PatchT4_Script();
 void PatchT4_SteamDRM();
 void PatchT4_FileDebug();
+//void PatchT4_Load();
 
 void Sys_RunInit()
 {
@@ -28,24 +31,35 @@ void Sys_RunInit()
 
 void PatchT4()
 {
+	//*(const char**)0x00840FF0 = "raw";
 	PatchT4_SteamDRM();
+	PatchT4_PreLoad();
 	PatchT4_MemoryLimits();
 	PatchT4_Branding();
 	PatchT4_Console();
 	PatchT4_Dvars();
+	PatchT4_Menus();
 	PatchT4_NoBorder();
-	PatchT4_PreLoad();
-	//PatchT4_FileDebug();
-
-	// Check if game got started using steam
+	PatchT4_Script();
+	//PatchT4_Load();
+	
+	// check if game got started using steam
 	if (!GetModuleHandle("gameoverlayrenderer.dll"))
 		loadGameOverlay();
 }
 
+void *MemCpyFix(void *a1, void **a2, int len)
+{
+	return memcpy(a1, a2, len);
+}
+
 void PatchT4_PreLoad()
 {
-	nop(0x5FE685, 5); // remove optimal settings popup
-	*(BYTE*)0x5FF386 = (BYTE)0xEB; // skip safe mode check
+	Detours::X86::DetourFunction((PBYTE)0x007AFFC0, (PBYTE)&MemCpyFix);
+	nop(0x0059D6F4, 5); // disable Com_DvarDump from Com_Init_Try_Block_Function
+	nop(0x005FF743, 5); // disable Sys_CreateSplash
+	//nop(0x005FF698, 5); // disable Sys_CheckCrashOrRerun
+	//nop(0x005FE685, 5); // disable Sys_HasConfigureChecksumChanged
 }
 
 void PatchT4_SteamDRM()
@@ -62,7 +76,13 @@ void PatchT4_SteamDRM()
 	ntHeader->OptionalHeader.AddressOfEntryPoint = 0x3AF316;
 }
 
-//code from https://github.com/momo5502/cod-mod/
+void PatchT4_Menus()
+{
+	nop(0x437ACC, 5); // disable CG_CheckHudObjectiveDisplay call
+	nop(0x6680D2, 2); // disable jmp for onlinegame dvar check
+}
+
+// code from https://github.com/momo5502/cod-mod/
 void loadGameOverlay()
 {
 	try
@@ -79,7 +99,7 @@ void loadGameOverlay()
 
 			m_steamDir = pchSteamDir;
 		}
-
+		// causes a stack overflow if left in
 		//Com_Printf(0, "Loading %s\\gameoverlayrenderer.dll...\n", m_steamDir.c_str());
 		HMODULE overlay = LoadLibrary(va("%s\\gameoverlayrenderer.dll", m_steamDir.c_str()));
 

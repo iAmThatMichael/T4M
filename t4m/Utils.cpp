@@ -9,6 +9,7 @@
 // ==========================================================
 
 #include "StdInc.h"
+#include <sys/stat.h>
 
 /*
 va() variant by NTAuthority from http://tohjo.eu/citidev/citizenmp
@@ -124,4 +125,15 @@ void FixupFunction(ULONG_PTR Address, ULONG_PTR DestAddress)
 
 	PatchMemory(Address + 0, (PBYTE)"\xE9", 1);
 	PatchMemory(Address + 1, (PBYTE)&data, 4);
+}
+
+bool FileExists(const char* file)
+{
+	struct stat st;
+
+	return (stat(file, &st) == 0);
+}
+
+bool isSubstr(std::string s, std::string sub) {
+	return s.find(sub) != std::string::npos;
 }
