@@ -135,6 +135,7 @@ popd</Command>
     <ClCompile Include="PatchT4Console.cpp" />
     <ClCompile Include="PatchT4Dvars.cpp" />
     <ClCompile Include="PatchT4FileDebug.cpp" />
+    <ClCompile Include="PatchT4Load.cpp" />
     <ClCompile Include="PatchT4MemoryLimits.cpp" />
     <ClCompile Include="PatchT4NoBorder.cpp" />
     <ClCompile Include="PatchT4Script.cpp" />
